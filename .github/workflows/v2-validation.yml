@@ -1,0 +1,16 @@
+name: Validacao Meu Shape V2
+on:
+  push:
+    branches: [feat/meu-shape-v2-homologacao]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar biblioteca, imagens e cache offline
+        run: node test-v2.cjs
