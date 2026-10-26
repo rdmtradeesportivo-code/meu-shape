@@ -23,6 +23,17 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/meu-shape-server.log 2>&1 &
           sleep 2
           node test-browser-v2.mjs
+      - name: Preparar pacote de homologação separado
+        run: |
+          mkdir -p homologacao-meu-shape-v2
+          cp index.html manifest.webmanifest icon.svg sw.js v2-extra.js exercise-library.js exercise-visuals.js homologacao-meu-shape-v2/
+          printf '%s\n' 'Meu Shape V2 - homologação. Abra por um servidor HTTP local, não via file://. Esta versão NÃO substitui a instalação principal.' > homologacao-meu-shape-v2/LEIA-ME.txt
+      - name: Disponibilizar pacote de homologação
+        uses: actions/upload-artifact@v4
+        with:
+          name: meu-shape-v2-homologacao
+          path: homologacao-meu-shape-v2/
+          retention-days: 14
       - name: Salvar capturas para revisão
         if: always()
         uses: actions/upload-artifact@v4
