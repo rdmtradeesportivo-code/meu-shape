@@ -14,3 +14,19 @@ jobs:
           node-version: '22'
       - name: Validar biblioteca, imagens e cache offline
         run: node test-v2.cjs
+      - name: Preparar Chromium para teste mobile
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Testar interface mobile em Chromium
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/meu-shape-server.log 2>&1 &
+          sleep 2
+          node test-browser-v2.mjs
+      - name: Salvar capturas para revisão
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: meu-shape-v2-mobile
+          path: '*-v2-mobile.png'
+          if-no-files-found: ignore
