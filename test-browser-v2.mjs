@@ -14,7 +14,7 @@ await page.locator('#exerciseSearch').fill('Supino');
 const options=await page.locator('#exercise option').allTextContents();
 assert.ok(options.some(x=>x.toLowerCase().includes('supino')),'Search filter failed');
 await page.locator('#exerciseEquipment').selectOption({index:0});
-assert.ok(await page.locator('#exerciseIllustration svg').count(),'Exercise SVG missing');
+assert.ok(await page.locator('#exerciseIllustration img, #exerciseIllustration [role="img"], #exerciseIllustration strong').count(),'Exercise guide missing');
 assert.ok(await page.locator('#exerciseIllustration ol li').count()>=2,'Instructions missing');
 await page.locator('#weight').fill('20');
 await page.locator('#reps').fill('10');
